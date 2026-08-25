@@ -24,16 +24,23 @@ function Dashboard() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    const controller = new AbortController()
     setLoading(true)
     setError(null)
     const skip = (page - 1) * perPage
-    getProducts(perPage, skip)
+    getProducts(perPage, skip, controller.signal)
       .then((response) => {
         setProducts(response.products)
         setTotal(response.total)
       })
-      .catch(() => setError('Could not load products. Please try again.'))
-      .finally(() => setLoading(false))
+      .catch(() => {
+        if (!controller.signal.aborted) setError('Could not load products. Please try again.')
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false)
+      })
+
+    return () => controller.abort()
   }, [page, perPage])
 
   const pageCount = Math.max(1, Math.ceil(total / perPage))

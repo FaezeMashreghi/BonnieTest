@@ -18,7 +18,7 @@ export type ProductsResponse = {
   limit: number
 }
 
-export async function getProducts(limit: number, skip: number): Promise<ProductsResponse> {
-  const response = await fetch(`${BASE_URL}?limit=${limit}&skip=${skip}`)
+export async function getProducts(limit: number, skip: number, signal?: AbortSignal): Promise<ProductsResponse> {
+  const response = await fetch(`${BASE_URL}?limit=${limit}&skip=${skip}`, { signal })
   return response.json()
 }
