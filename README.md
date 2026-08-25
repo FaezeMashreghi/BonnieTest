@@ -25,7 +25,7 @@ The app runs at `http://localhost:5173`.
 Other scripts:
 
 ```bash
-npm run build    # type-check (tsc -b) and build for production
+npm run build    # type-check (tsc) and build for production
 npm run preview  # preview the production build locally
 npm run lint     # ESLint (TypeScript + React Hooks rules)
 ```
