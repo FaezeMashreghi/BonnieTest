@@ -36,7 +36,7 @@ function Dashboard() {
   const pageCount = Math.max(1, Math.ceil(total / perPage))
 
   return (
-    <div className="min-h-screen bg-[#f5f7f9] p-8 text-[#17202a]">
+    <div className="min-h-screen bg-surface p-8 text-ink">
       <div className={`relative ${products.length === 0 ? 'min-h-[220px]' : ''}`}>
         <div className={`transition-opacity ${loading ? 'opacity-50' : 'opacity-100'}`}>
           <Table columns={productColumns} data={products} getRowKey={(row) => row.id} />

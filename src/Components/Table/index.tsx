@@ -19,12 +19,12 @@ function alignClass(align?: 'left' | 'center' | 'right') {
 
 export default function Table<T>({ columns, data, getRowKey }: TableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded-[12px] border border-[#e2e8ec] bg-white">
+    <div className="overflow-x-auto rounded-[12px] border border-border bg-white">
       <table className="w-full border-collapse text-[13px]">
         <thead>
-          <tr className="border-b border-[#e2e8ec] bg-[#f7f9fa]">
+          <tr className="border-b border-border bg-surface-muted">
             {columns.map((column) => (
-              <th key={column.key} className={`px-5 py-3 text-[11px] font-bold uppercase tracking-[0.06em] text-[#7f8b93] ${alignClass(column.align)}`}>
+              <th key={column.key} className={`px-5 py-3 text-[11px] font-bold uppercase tracking-[0.06em] text-muted ${alignClass(column.align)}`}>
                 {column.header}
               </th>
             ))}
@@ -32,9 +32,9 @@ export default function Table<T>({ columns, data, getRowKey }: TableProps<T>) {
         </thead>
         <tbody>
           {data.map((row, index) => (
-            <tr key={getRowKey(row, index)} className="border-b border-[#edf0f2] last:border-0 hover:bg-[#f7f9fa]">
+            <tr key={getRowKey(row, index)} className="border-b border-border-subtle last:border-0 hover:bg-surface-muted">
               {columns.map((column) => (
-                <td key={column.key} className={`px-5 py-3.5 text-[#3a444c] ${alignClass(column.align)}`}>
+                <td key={column.key} className={`px-5 py-3.5 text-body ${alignClass(column.align)}`}>
                   {column.render ? column.render(row) : String((row as Record<string, unknown>)[column.key] ?? '')}
                 </td>
               ))}

@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'DM Sans', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  /* Design system colors — use as bg-*, text-*, border-* (e.g. text-ink, border-border) */
+  --color-ink: #17202a;          /* primary text */
+  --color-body: #3a444c;         /* table cell text */
+  --color-label: #65727c;        /* secondary text, buttons */
+  --color-label-strong: #52606a; /* select value, prev/next button text */
+  --color-muted: #7f8b93;        /* captions, column headers */
+  --color-surface: #f5f7f9;      /* page background */
+  --color-surface-muted: #f7f9fa; /* table header row, hover background */
+  --color-border: #e2e8ec;       /* card / table border */
+  --color-border-light: #e1e7ea; /* input / button border */
+  --color-border-subtle: #edf0f2; /* row divider */
+  --color-accent: #e36d4d;       /* brand accent */
+}
+
+:root { color: var(--color-ink); background: var(--color-surface); font-family: 'DM Sans', sans-serif; font-synthesis: none; }
+body { margin: 0; min-width: 320px; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { animation: rise 500ms ease-out both; }
+.reveal-2 { animation-delay: 80ms; }
+.reveal-3 { animation-delay: 160ms; }
+.reveal-4 { animation-delay: 240ms; }
+.chart-line { stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 1.4s ease-out 300ms forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
