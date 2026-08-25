@@ -1,13 +1,22 @@
 # BonnieTest
 Bonnie Dashboard
 
-A small React + TypeScript dashboard, built with Vite and styled with Tailwind CSS. It renders a paginated product table backed by a live API call.
+A small React + TypeScript dashboard, built with Vite and styled with Tailwind CSS. It renders a paginated, filterable product table backed by a live API call.
+
+## Why this project
+
+This isn't meant to be a real product; it's a small, focused sample meant to show how I structure a React codebase, handle real API calls (loading/error/cancellation, not just the happy path), and think about table performance and UX (no layout shift while loading, server-driven pagination instead of fetching everything up front).
+
+It uses the public [DummyJSON](https://dummyjson.com/docs/products) API rather than mock/static data specifically so the API-handling code is real: actual network requests, actual latency, actual failure cases, actual server-side pagination and filtering. No backend to set up, no auth, and it returns realistic, paginated, filterable product data, so it exercises the same patterns a real API would.
+
+**Every pagination and filter change is a fresh request to the server.** Changing the page, rows-per-page, category, or rating sort all refetch from DummyJSON; nothing is cached or filtered client-side. That's a deliberate choice for this size of project. See [Trade-offs & possible improvements](#trade-offs--possible-improvements) below for what a caching layer would add.
 
 ## What it does
 
-The app fetches products from the public [DummyJSON](https://dummyjson.com/docs/products) API and displays them in a table with server-driven pagination:
+The app fetches products from DummyJSON and displays them in a table with server-driven pagination and filtering:
 
 - Table columns: ID, Title, Category, Price, Rating, Stock
+- Filter by category, and sort by rating (high to low / low to high), both real server-side operations via DummyJSON's category and `sortBy` endpoints
 - "Rows per page" selector (10 / 20 / 50) and Prev/Next controls
 - A loading state that dims the table and shows a spinner overlay while a page is being fetched, without shifting the layout
 
@@ -120,4 +129,3 @@ This is a small sample project, so a few things were deliberately kept simple ra
 - **Design system** is intentionally small: colors and font sizes are named by role in `styles.css`'s `@theme` block instead of scattered as raw hex/px values. Could extend it with a spacing scale and shared radii too, kept it simple since there's only one theme and a handful of components.
 - **Table and Pagination are separate, presentational components** on purpose, so `Dashboard` stays readable and both components can be reused on any future page/dataset without changes.
 - **No automated tests.** Everything was verified manually while building. `Table` and `Pagination` are pure and prop-driven, so they'd be cheap to add a few Vitest + React Testing Library tests for later.
-- **No dedicated accessibility pass.** Semantic HTML (`<table>`, `<button disabled>`) already covers a lot for free. The "Rows per page" select isn't properly labeled for screen readers, and loading/error changes aren't announced via `aria-live`; both would be small, targeted fixes rather than a full audit.
