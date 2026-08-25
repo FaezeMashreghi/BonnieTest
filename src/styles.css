@@ -17,6 +17,11 @@
   --color-border-light: #e1e7ea; /* input / button border */
   --color-border-subtle: #edf0f2; /* row divider */
   --color-accent: #e36d4d;       /* brand accent */
+
+  /* Design system font sizes — use as text-2xs / text-xs / text-sm */
+  --text-2xs: 11px; /* uppercase captions, column headers */
+  --text-xs: 12px;  /* secondary text, buttons, pagination */
+  --text-sm: 13px;  /* primary table/body text */
 }
 
 :root { color: var(--color-ink); background: var(--color-surface); font-family: 'DM Sans', sans-serif; font-synthesis: none; }

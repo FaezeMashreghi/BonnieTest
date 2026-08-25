@@ -20,11 +20,11 @@ function alignClass(align?: 'left' | 'center' | 'right') {
 export default function Table<T>({ columns, data, getRowKey }: TableProps<T>) {
   return (
     <div className="overflow-x-auto rounded-[12px] border border-border bg-white">
-      <table className="w-full border-collapse text-[13px]">
+      <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="border-b border-border bg-surface-muted">
             {columns.map((column) => (
-              <th key={column.key} className={`px-5 py-3 text-[11px] font-bold uppercase tracking-[0.06em] text-muted ${alignClass(column.align)}`}>
+              <th key={column.key} className={`px-5 py-3 text-2xs font-bold uppercase tracking-[0.06em] text-muted ${alignClass(column.align)}`}>
                 {column.header}
               </th>
             ))}
