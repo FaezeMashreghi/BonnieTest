@@ -17,6 +17,7 @@
   --color-border-light: #e1e7ea; /* input / button border */
   --color-border-subtle: #edf0f2; /* row divider */
   --color-accent: #e36d4d;       /* brand accent */
+  --color-danger: #a14e4e;       /* error state text/border */
 
   /* Design system font sizes — use as text-2xs / text-xs / text-sm */
   --text-2xs: 11px; /* uppercase captions, column headers */
