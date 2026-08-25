@@ -48,27 +48,39 @@ src/
   styles.css                  # Tailwind import, design tokens, global styles/fonts
 
   Page/
-    Dashboard/index.tsx       # Owns page/perPage/data/loading/error state, fetches
-                               # products (cancelling stale requests on page change),
-                               # and wires Table + Pagination + Loading together
+    Dashboard/index.tsx       # Owns page/perPage/category/ratingOrder/data/loading/error
+                               # state, fetches products (cancelling stale requests on any
+                               # page or filter change), wires Table + Pagination +
+                               # SelectBox + Loading together
 
   api/
-    Product/index.tsx         # getProducts(limit, skip, signal?): fetch wrapper for
-                               # the DummyJSON products endpoint, plus the Product type
+    Product/index.tsx         # getProducts(limit, skip, signal?, category?, ratingOrder?)
+                               # and getCategories(signal?): fetch wrappers for the
+                               # DummyJSON products endpoints, plus the Product,
+                               # ProductsResponse, and ProductCategory types
+
+  Util/
+    Product.ts                # productColumns (Table column config) and
+                               # ratingOrderOptions (SelectBox options): shared,
+                               # non-stateful constants used by the Dashboard page
 
   Components/
     Table/index.tsx           # Generic, presentational table (columns + data + getRowKey,
                                # optional emptyMessage). No internal state; sorting/
                                # filtering/pagination logic lives outside it.
-    Pagination/index.tsx      # Presentational pagination bar (rows-per-page select,
+    Pagination/index.tsx      # Presentational pagination bar (rows-per-page SelectBox,
                                # page label, Prev/Next). Fully controlled via props.
-    Loading/index.tsx         # Small spinner/pill overlay, reused wherever a loading
-                               # state needs to be shown without affecting layout.
+    SelectBox/index.tsx       # Presentational labeled select (real <label> tied to the
+                               # control via useId, so it's announced correctly to screen
+                               # readers). Fully controlled via props.
+    Loading/index.tsx         # Small spinner/pill overlay (role="status"), reused
+                               # wherever a loading state needs to be shown without
+                               # affecting layout.
 ```
 
 ### Design principle
 
-The `Table`, `Pagination`, and `Loading` components are intentionally "dumb": they only render UI based on the props they're given and call back via `onXChange` handlers. All state (current page, rows per page, fetched data, loading flag) and the actual data fetching live in `Page/Dashboard`. This keeps the components reusable for any future dataset without rewriting them, and `App.tsx` is left free to grow into a router/layout shell as more pages are added.
+The `Table`, `Pagination`, `SelectBox`, and `Loading` components are intentionally "dumb": they only render UI based on the props they're given and call back via `onXChange` handlers. All state (current page, rows per page, category/rating filters, fetched data, loading flag) and the actual data fetching live in `Page/Dashboard`. This keeps the components reusable for any future dataset without rewriting them, and `App.tsx` is left free to grow into a router/layout shell as more pages are added.
 
 ## Styling
 
@@ -127,5 +139,5 @@ This is a small sample project, so a few things were deliberately kept simple ra
 
 - **Data fetching** uses plain `useEffect` + `fetch` instead of [TanStack Query](https://tanstack.com/query). Errors and request races (clicking Next twice fast) are handled by hand; things like caching and retries aren't. TanStack Query would replace the fetching logic with one `useQuery` call and get all of that for free, worth it if the app grows past one page.
 - **Design system** is intentionally small: colors and font sizes are named by role in `styles.css`'s `@theme` block instead of scattered as raw hex/px values. Could extend it with a spacing scale and shared radii too, kept it simple since there's only one theme and a handful of components.
-- **Table and Pagination are separate, presentational components** on purpose, so `Dashboard` stays readable and both components can be reused on any future page/dataset without changes.
-- **No automated tests.** Everything was verified manually while building. `Table` and `Pagination` are pure and prop-driven, so they'd be cheap to add a few Vitest + React Testing Library tests for later.
+- **Table, Pagination, and SelectBox are separate, presentational components** on purpose, so `Dashboard` stays readable and all three can be reused on any future page/dataset without changes.
+- **No automated tests.** Everything was verified manually while building. `Table`, `Pagination`, and `SelectBox` are pure and prop-driven, so they'd be cheap to add a few Vitest + React Testing Library tests for later.
