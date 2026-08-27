@@ -5,7 +5,7 @@ A small React + TypeScript dashboard, built with Vite and styled with Tailwind C
 
 ## Why this project
 
-This is the "rebuild one piece" part of a take-home assignment: audit Bonnie's dashboard, pick one part of it, and rebuild that piece as a working prototype in my own stack. I picked the data table, pagination, and filtering.
+This is the "rebuild one piece" part of a take-home assignment: audit Bonnie's dashboard, pick one part of it, and rebuild that piece as a working prototype in my own stack. I picked the data table, pagination, and filtering specifically because it let me show how I'd fix two bugs I found during the audit (pagination controls disappearing at 50 rows per page, and stale data when revisiting a page); full repro details are in the audit doc.
 
 This isn't meant to be a real product; it's a small, focused sample meant to show how I structure a React codebase, handle real API calls (loading/error/cancellation, not just the happy path), and think about table performance and UX (no layout shift while loading, server-driven pagination instead of fetching everything up front).
 
@@ -13,9 +13,7 @@ It uses the public [DummyJSON](https://dummyjson.com/docs/products) API rather t
 
 **Every pagination and filter change is a fresh request to the server.** Changing the page, rows-per-page, category, or rating sort all refetch from DummyJSON; nothing is cached or filtered client-side. That's a deliberate choice for this size of project. See [Trade-offs & possible improvements](#trade-offs--possible-improvements) below for what a caching layer would add.
 
-I lean on this deliberately in the pagination section specifically because of a bug I found while auditing Bonnie's dashboard (`app.demo.dev.bonnie.ai`): on the Conversations table, choosing 50 rows per page makes the entire pagination bar (Prev / page numbers / Next / per-page selector) disappear, while it renders correctly at 10 and 25. Likely cause is a condition that hides pagination once everything "fits on one page," computed against the wrong total count, or a fixed-height container that clips the control once 50 rows render.
-
-That's the exact failure mode I built this table to avoid. `pageCount` (`src/Page/Dashboard/index.tsx`) is recomputed straight from the server's `total` on every fetch, and `Pagination` is never conditionally hidden. It always renders off of live, current data, at 10, 20, or 50 rows per page alike.
+`pageCount` (`src/Page/Dashboard/index.tsx`) is recomputed straight from the server's `total` on every fetch, and `Pagination` is never conditionally hidden. It always renders off of live, current data, at 10, 20, or 50 rows per page alike.
 
 ## What it does
 
