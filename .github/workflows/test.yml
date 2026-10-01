@@ -1,0 +1,8 @@
+name :test Project
+on: push
+jobs:
+  test:
+    run-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v7
